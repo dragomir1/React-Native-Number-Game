@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+// Importing the colors object.
+import Colors from '../../constants/colors';
 
 const Header = props => {
   return (
@@ -17,7 +19,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 90,
     paddingTop: 40,
-    backgroundColor: '#f7287b',
+    // replacing hex value for imported color object
+    backgroundColor: Colors.primary,
     // every view by defualt uses flexbox. this controls how the child elements of the view are positioned inside of view.
     alignItems: 'center',
     justifyContent: 'center'
