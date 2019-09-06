@@ -2,5 +2,8 @@
 export default {
   primary: '#f7287b',
   secondary: '#c717fc',
-  startGameColor: '#0066ff'
+  startGameColor: '#0066ff',
+  selectedNumColor: '#ff0000',
+  black: '#000000',
+  white: '#ffffff'
 };

@@ -4,7 +4,7 @@ import { TextInput, View, StyleSheet } from 'react-native';
 const Input = props => {
   return (
     /* this again takes input style object as well as stylyng outside this component via props and combines them into one style for this this component. */
-    /* {...props} Inherit any props passed to it and adds them to the component.  In this case we are props form the pace where we use this custom inpuT AND NOT FROM THIS COMPONENT. IN THIS CASE WE MAKE SURE WE HAVE THE SAME CONFIGURATION FOR ALL INPUTS WE USE IN OUR APP. SO WE SET NEW CONFIGURATIONS FROM THE PLACE WE ARE USING THIS COMPONENT INSTEAD.  */
+    /* {...props} Inherit any props passed to it and adds them to the component.  In this case we use props from the place where we use this custom input AND NOT FROM THIS COMPONENT. IN THIS CASE WE MAKE SURE WE HAVE THE SAME CONFIGURATION FOR ALL INPUTS WE USE IN OUR APP. SO WE SET NEW CONFIGURATIONS FROM THE PLACE WE ARE USING THIS COMPONENT INSTEAD.  */
     <TextInput {...props} style={{ ...styles.input, ...props.style }} />
   );
 };

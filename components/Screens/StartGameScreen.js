@@ -13,10 +13,13 @@ import {
   // this API Launches an alert dialog with the specified title and message.
   Alert
 } from 'react-native';
+
+import NumberContainer from '../NumberContainer/NumberContainer';
 import Card from '../Card/Card';
 // Importing the colors object.
 import Colors from '../../constants/colors';
 import Input from '../Input/TextInput';
+import SelectedNumber from '../NumberContainer/NumberContainer';
 const StartGameScreen = props => {
   // this hook will manaage our user input. useState is a string. all inputs are strings that need to be converted to numbers.
   const [enteredValue, setValueState] = useState('');
@@ -53,22 +56,22 @@ const StartGameScreen = props => {
       setConfirmState(true);
       setSelectedNumerState(chosenNumber);
       setValueState('');
+      Keyboard.dismiss();
     }
   };
   // since we setConfirmState to true the bottom conditional will execute
   let confirmedOutput;
   if (confirmed) {
     confirmedOutput = (
-      <View style={styles.confirmOutPutStyle}>
-        <Text style={styles.confirmOutPutTextStyle}>
-          Chosen Number: {selectedNumber}
-        </Text>
+      <Card style={styles.confirmOutPutStyle}>
+        <Text style={styles.confirmOutPutTextStyle}>You selected:</Text>
+        <NumberContainer>{selectedNumber}</NumberContainer>
         <Button
-          title='Start game'
+          title='START GAME'
           color={Colors.startGameColor}
           onPress={() => {}}
         />
-      </View>
+      </Card>
     );
   }
 
@@ -97,14 +100,14 @@ const StartGameScreen = props => {
               {/* there's a color prop on the button component.  Importing the colors object from colors file and adding them to the color prop*/}
               <Button
                 title='Reset'
-                color={Colors.secondary}
+                color={Colors.startGameColor}
                 onPress={resetValueHandler}
               />
             </View>
             <View style={styles.buttonStyling1}>
               <Button
                 title='Confirm'
-                color={Colors.primary}
+                color={Colors.startGameColor}
                 onPress={confirmInputHandler}
               />
             </View>
@@ -127,8 +130,14 @@ const styles = StyleSheet.create({
   buttonStyling1: {
     width: '40%'
   },
+  selectedNumberStyling: {
+    alignItems: 'center',
+    marginTop: 10
+  },
   confirmOutPutStyle: {
-    marginVertical: 30
+    marginTop: 30,
+    // the default is stretch..'ccenter' will only let the margin be as wide as number needs.
+    alignItems: 'center'
   },
   confirmOutPutTextStyle: {
     fontSize: 20
