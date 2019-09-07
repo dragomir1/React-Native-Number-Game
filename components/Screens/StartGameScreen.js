@@ -14,12 +14,11 @@ import {
   Alert
 } from 'react-native';
 
-import NumberContainer from '../NumberContainer/NumberContainer';
 import Card from '../Card/Card';
 // Importing the colors object.
 import Colors from '../../constants/colors';
 import Input from '../Input/TextInput';
-import SelectedNumber from '../NumberContainer/NumberContainer';
+import NumContainer from '../NumberContainer/NumberContainer';
 const StartGameScreen = props => {
   // this hook will manaage our user input. useState is a string. all inputs are strings that need to be converted to numbers.
   const [enteredValue, setValueState] = useState('');
@@ -65,11 +64,12 @@ const StartGameScreen = props => {
     confirmedOutput = (
       <Card style={styles.confirmOutPutStyle}>
         <Text style={styles.confirmOutPutTextStyle}>You selected:</Text>
-        <NumberContainer>{selectedNumber}</NumberContainer>
+        <NumContainer>{selectedNumber}</NumContainer>
         <Button
           title='START GAME'
           color={Colors.startGameColor}
-          onPress={() => {}}
+          // we are executing onstartGameHandler and forwarding the selected number to startGameHandler...(continued reading in APP.js)
+          onPress={() => props.startGameHandler(selectedNumber)}
         />
       </Card>
     );
@@ -96,7 +96,7 @@ const StartGameScreen = props => {
             value={enteredValue}
           />
           <View style={styles.buttonStyling}>
-            <View style={styles.buttonStyling1}>
+            <View>
               {/* there's a color prop on the button component.  Importing the colors object from colors file and adding them to the color prop*/}
               <Button
                 title='Reset'
@@ -104,7 +104,7 @@ const StartGameScreen = props => {
                 onPress={resetValueHandler}
               />
             </View>
-            <View style={styles.buttonStyling1}>
+            <View>
               <Button
                 title='Confirm'
                 color={Colors.startGameColor}
@@ -127,9 +127,7 @@ const styles = StyleSheet.create({
     // this positions items along the cross-axis.  Every View by defualt uses flexbox and the flexdirection is 'column'.  alignItems aligns left to right - horizontally.
     alignItems: 'center'
   },
-  buttonStyling1: {
-    width: '40%'
-  },
+
   selectedNumberStyling: {
     alignItems: 'center',
     marginTop: 10
