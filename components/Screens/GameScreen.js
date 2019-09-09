@@ -1,12 +1,12 @@
 // This screen will switch to Game Screen from Start Game Screen when the game is running.  this will have the random num generator logic.
 
 // things that need to happen here..the computer needs to make a guess when the screen loads. and it also needs to make a new guess everytime the user presses 'too high' or 'too low' button.
-//do we need component did mount?
-// do we need some form of state to hold on to the value the computer guesses?
-// the buttons resets the computer and directs them to guess again.
 
-// useRef hook allows to you define and hold to a value that survives component re-renders. in this case when the component rerenders and we get a new num, the previous num is held wih useRef().
-import React, { useState, useRef } from 'react';
+// USEREF hook allows to you define and hold to a value that survives component re-renders. in this case when the component rerenders and we get a new num, the previous num is held wih useRef().  It's a “box” that can hold a mutable value in its .current property.
+
+// USEEFFECT  allows you to run side effects(timers, subscriptons, mutations, api calls) after the component renders.  By default, effects run after every completed render, but you can choose to fire it only when certain values have changed.ALLOWS YOU TO RUN LOGIC AFTER EERY RENDER CYCLE.
+
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 
 import NumContainer from '../NumberContainer/NumberContainer';
@@ -36,11 +36,39 @@ const GameScreen = props => {
   const [currentGuess, setCurrentGuessState] = useState(
     generateRandomNum(1, 100, props.userChoiceNum)
   );
+
+  //this state manages the round it took to guess the number
+  const [rounds, setRounds] = useState(0);
+
   // these are the initaly values for our randomgen funciton.  we're able to update these references in the nextguesshandler funcion.
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
   // we do this function here because we need access to the sourounding statecomp.
   // we are passing 'direction' as an argument. this denotes which direction the next guess should be..lower or greater.
+
+  // this hook takes a funciton that runs by default after every rendered cycle for this component.
+
+  // THIS CHECKS IF THE GAME IS OVER AFTER EVERY RENDER.  WE ADD A SECOND ARGUMENT TO THIS EFFECT TO BE MORE DIRECT REGARDING THE DEPENDENCIES OF THIS EFFECT.
+  // THE FIRST ARGUMENT TAKES A FUNCTION THAT EXECUTES AFTER COMP RENDER.
+  // SECOND ARGUMENT YOU PASS TO THIS EFECT IS AN ARRAY OF DEPENDENCIES OF THIS FUNCTION. - NEED TO SPECIFY ANY VALUE COMING FROM OUTSIDE OF THIS EFFECT FUNTION.
+
+  // if this effect, when a value changes this effect will rerun after every renderCylcle.
+  // if the value for the new render cycle is the same as the previous render cycle, then effect will not rerun.
+
+  // ** object destructuring to destructure props object and pull these two property names (userChoiceNum, onGameOver) out of prop object and store the VALUES of those properties in constants with the same name.
+  const { userChoiceNum, onGameOver } = props;
+
+  // we use useEffect() becuase we need to check after every render if the resulting values match. use effect does actions after component renders.
+  useEffect(() => {
+    // once we destructed, and extracted the props. we don't need to use 'props.' use the name thats used as destructing name.
+    if (currentGuess === userChoiceNum) {
+      // we call this function and forward the amount of rounds it took computer to guess...needs a new state.
+      onGameOver(rounds);
+    }
+    // this ARGUMENT YOU PASS TO THe EFECT IS AN ARRAY OF DEPENDENCIES (in this case args we're passing) OF THIS FUNCTION. - we NEED TO SPECIFY ANY VALUE COMING FROM OUTSIDE OF THIS EFFECT FUNTION. currentGuess is within this comp but outside this effect.  USERCHOICE AND ONGAME OVER ARE OUT OF THIS COMP.  SO WE NEED TO USE DESTRUCTURING TO PULL VAULES FROM THIS PROPS.
+    // these are dependancies for this effect.
+    // reason why we don't use 'props.userChoiceNum','props.onGameOver' is because 'props' always changes when the parent comp changes. here, only the changes in these props are stored.  This effect only re-run when only values on these dependances change.
+  }, [currentGuess, userChoiceNum, onGameOver]);
 
   // THIS IS IF THE GUESS IS AN INCORRENT VALUE
   const nextGuessHandler = direction => {
@@ -50,8 +78,8 @@ const GameScreen = props => {
       (direction === 'lower' && currentGuess < props.userChoiceNum) ||
       (direction === 'higher' && currentGuess > props.userChoiceNum)
     ) {
-      Alert.alert("Don't lie", "You know it's wrong", [
-        { text: 'Okie Dokie', style: 'cancel' }
+      Alert.alert("Don't lie", "You can't trick the computer", [
+        { text: 'OK', style: 'cancel' }
       ]);
       return;
     }
@@ -60,7 +88,7 @@ const GameScreen = props => {
       // here we the current mim and max should adjust over time as hints are given if the computer guess too small or too big.  for that we use a hook..the useRef() hook.
 
       // current is a property on the references generated by react are object with a current property where the value is stored in.
-      // here we are setting the currentHigh to the new current guess.
+      // here we are setting the currentHigh and currentLow to the new current guess.
       currentHigh.current = currentGuess;
     } else {
       currentLow.current = currentGuess;
@@ -71,7 +99,10 @@ const GameScreen = props => {
       currentHigh.current,
       currentGuess
     );
+    // we are generating a new number
     setCurrentGuessState(nextNumber);
+    // we need to set the rounds. set rounds takes in a funtion that does the action that updates the state.
+    setRounds(currentRounds => currentRounds + 1);
   };
 
   return (
@@ -115,6 +146,14 @@ const styles = StyleSheet.create({
     width: 300,
     // this will not exceed the boundires of the parent view.
     maxWidth: '80%'
+  },
+  confirmOutPutStyle: {
+    marginTop: 60,
+    // the default is stretch..'ccenter' will only let the margin be as wide as number needs.
+    alignItems: 'center'
+  },
+  confirmOutPutTextStyle: {
+    fontSize: 20
   }
 });
 
