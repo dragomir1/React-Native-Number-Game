@@ -5,12 +5,44 @@ import StartGameScreen from './components/Screens/StartGameScreen';
 import GameScreen from './components/Screens/GameScreen';
 import GameOverScreen from './components/Screens/GameOverScreen';
 
+// we want to load fonts when the app starts.
+import * as Font from 'expo-font';
+
+// this component prolongs the default loading screen...the splash screen, to stay active until a certain of your choice is done.  we can use state to managage the data loading.
+import { AppLoading } from 'expo';
+
+// creating font funciton outside of the functional component beucase it doens't need to be recreated for every component re-render cycle.
+
+// method on the Font package allows you to load fonts, you pass an object.  loadAsync returns a promise. perform async fiunction call.
+
+async function fetchFonts() {
+  await Promise.all([
+    Font.loadAsync({
+      'open-sans-regular': require('./assets/fonts/OpenSans-Regular.ttf'),
+      'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+    })
+  ]);
+}
+
 export default function App() {
   const [userNumber, setUserNumberState] = useState(null);
+  const [guessRounds, setGuessRounds] = useState(0);
+  const [dataLoaded, setDataLoadedState] = useState(false);
+
+  // if data isn't loaded, we return this component.
+  if (!dataLoaded) {
+    // this takes a starAsync prop that points to an operation to start when this comp is first rendered. THIS HAS to be a function that returns a promise becuase expo will listen to promise and when it's resolved, it will know that loading is done and will call what ever is passed to the 'onFinish' prop.  it takes a function that will be executed when startAsyn operation is done and for expo to find out when it's done, it should return a promise.
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setDataLoadedState(true)}
+        onError={error => console.log(error)}
+      />
+    );
+  }
 
   // stores the number of rounds it took computer to finish. initilize to zero.  this is set when game is over.
   // IF GUESS ROUNDS IS 0 => GAME HASNT STARTED.  IF GUESS ROUNDS IS > 0 => GAMEOVERHANDLER EXECTUED AND GAME IS OVER.
-  const [guessRounds, setGuessRounds] = useState(0);
 
   // WE RESET THE ENTIRE GAME ONCE THE COMPUTER GUESSES NUM.
   const newGameConfig = () => {
@@ -55,7 +87,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Header title='Guess a number' />
+      <Header title='Guess a number game!' />
       {content}
     </View>
   );

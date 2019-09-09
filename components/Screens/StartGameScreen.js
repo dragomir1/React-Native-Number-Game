@@ -18,6 +18,7 @@ import Card from '../Card/Card';
 // Importing the colors object.
 import Colors from '../../constants/colors';
 import Input from '../Input/TextInput';
+import FontBodyText from '../FontBodyText/FontBodyText';
 import NumContainer from '../NumberContainer/NumberContainer';
 const StartGameScreen = props => {
   // this hook will manaage our user input. useState is a string. all inputs are strings that need to be converted to numbers.
@@ -63,7 +64,7 @@ const StartGameScreen = props => {
   if (confirmed) {
     confirmedOutput = (
       <Card style={styles.confirmOutPutStyle}>
-        <Text style={styles.confirmOutPutTextStyle}>You selected:</Text>
+        <FontBodyText>You selected:</FontBodyText>
         <NumContainer>{selectedNumber}</NumContainer>
         <Button
           title='START GAME'
@@ -79,10 +80,9 @@ const StartGameScreen = props => {
     // this function closes out the keyboard when you touch anywhere else on the screen
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.screen}>
-        <Text style={styles.screenText}>Start a new Game!</Text>
         {/* here we're passing additional styling elements via prop to the card comp. */}
         <Card style={styles.inputContainer}>
-          <Text style={styles.screenTextNum}>Select a number</Text>
+          <FontBodyText>To start, select a number.</FontBodyText>
           <Input
             style={styles.textInputStyle}
             blurOnSubmit
@@ -125,7 +125,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     // this positions items along the cross-axis.  Every View by defualt uses flexbox and the flexdirection is 'column'.  alignItems aligns left to right - horizontally.
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 20
   },
 
   selectedNumberStyling: {
@@ -142,7 +143,8 @@ const styles = StyleSheet.create({
   },
   screenText: {
     fontSize: 20,
-    marginVertical: 10
+    marginVertical: 10,
+    fontFamily: 'open-sans-bold'
   },
   buttonStyling: {
     flexDirection: 'row',
@@ -173,6 +175,8 @@ const styles = StyleSheet.create({
     // padding: 20,
     // borderRadius: 10
   },
-  screenTextNum: {}
+  screenTextNum: {
+    fontSize: 18
+  }
 });
 export default StartGameScreen;

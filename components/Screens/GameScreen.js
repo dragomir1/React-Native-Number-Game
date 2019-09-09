@@ -10,8 +10,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 
 import NumContainer from '../NumberContainer/NumberContainer';
+import FontBodyText from '../FontBodyText/FontBodyText';
 import Card from '../Card/Card';
 import Colors from '../../constants/colors';
+// import the stylesheet object containing the default styles for entire app.
+import DefaultStyles from '../../constants/defaultStyles';
 
 // creating a new funciton ouside of the GameScreen component. this function shouldn't be recreated every time GameScreen re-renders to save performance.
 // if you don't rely on props or state, you can have a function that resides outside of your component.
@@ -107,7 +110,8 @@ const GameScreen = props => {
 
   return (
     <View style={styles.screen}>
-      <Text>The Computer's Guess:</Text>
+      {/* we import and access bodyText object from Default styles.  this is another way to set globally accssable styles. */}
+      <Text style={DefaultStyles.title}>The Computer's Guess:</Text>
       <NumContainer>{currentGuess}</NumContainer>
       <Card style={styles.buttonStyling}>
         <View>

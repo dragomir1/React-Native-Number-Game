@@ -1,18 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import FontBodyText from '../FontBodyText/FontBodyText';
 
 const GameOverScreen = props => {
   return (
     <View style={styles.screen}>
-      <Text>Game is over!</Text>
-      <Text>
+      <FontBodyText>Game is over!</FontBodyText>
+      <FontBodyText>
         Number was:
         {props.userChoiceNum}
-      </Text>
-      <Text>
-        Number of rounds it took conputer to guess the number:
-        {props.numOfRounds}
-      </Text>
+      </FontBodyText>
+      <FontBodyText>
+        The computer guessed the number in {props.numOfRounds} rounds.
+      </FontBodyText>
       <Button title='NEW GAME' onPress={props.onRestart} />
     </View>
   );
