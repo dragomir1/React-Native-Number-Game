@@ -26,6 +26,7 @@ async function fetchFonts() {
 
 export default function App() {
   const [userNumber, setUserNumberState] = useState(null);
+  // stores the number of rounds it took computer to finish. initilize to zero.  this is set when game is over.
   const [guessRounds, setGuessRounds] = useState(0);
   const [dataLoaded, setDataLoadedState] = useState(false);
 
@@ -41,9 +42,7 @@ export default function App() {
     );
   }
 
-  // stores the number of rounds it took computer to finish. initilize to zero.  this is set when game is over.
   // IF GUESS ROUNDS IS 0 => GAME HASNT STARTED.  IF GUESS ROUNDS IS > 0 => GAMEOVERHANDLER EXECTUED AND GAME IS OVER.
-
   // WE RESET THE ENTIRE GAME ONCE THE COMPUTER GUESSES NUM.
   const newGameConfig = () => {
     // reset to zero when new game starts.

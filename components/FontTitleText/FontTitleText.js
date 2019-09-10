@@ -3,17 +3,15 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 
-const FontBodyText = props => {
-  return (
-    <Text style={{ ...styles.bodyText, ...props.style }}>{props.children}</Text>
-  );
+const FontTitleText = props => {
+  return <Text style={styles.bodyText}>{props.children}</Text>;
 };
 
 const styles = StyleSheet.create({
   bodyText: {
-    fontFamily: 'open-sans-regular',
-    fontSize: 20
+    fontFamily: 'open-sans-bold',
+    fontSize: 22
   }
 });
 
-export default FontBodyText;
+export default FontTitleText;
