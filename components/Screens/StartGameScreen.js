@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 //TouchableWithoutFeedback regisersed a touch listenter without visual feedback.
 import {
   StyleSheet,
-  Text,
   View,
   Button,
   TouchableWithoutFeedback,
@@ -20,6 +19,8 @@ import Colors from '../../constants/colors';
 import Input from '../Input/TextInput';
 import FontBodyText from '../FontBodyText/FontBodyText';
 import NumContainer from '../NumberContainer/NumberContainer';
+import CustomButton from '../CustomButton/CustomButton';
+
 const StartGameScreen = props => {
   // this hook will manaage our user input. useState is a string. all inputs are strings that need to be converted to numbers.
   const [enteredValue, setValueState] = useState('');
@@ -66,12 +67,11 @@ const StartGameScreen = props => {
       <Card style={styles.confirmOutPutStyle}>
         <FontBodyText>You selected:</FontBodyText>
         <NumContainer>{selectedNumber}</NumContainer>
-        <Button
-          title='START GAME'
-          color={Colors.startGameColor}
+        <CustomButton
           // we are executing onstartGameHandler and forwarding the selected number to startGameHandler...(continued reading in APP.js)
-          onPress={() => props.startGameHandler(selectedNumber)}
-        />
+          onPress={() => props.startGameHandler(selectedNumber)}>
+          Start Game
+        </CustomButton>
       </Card>
     );
   }
